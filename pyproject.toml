@@ -1,0 +1,45 @@
+[project]
+name = "hatethegame"
+version = "0.1.0"
+description = "If you can't beat them... join them"
+authors = [{ name = "Peter Lahanas" }]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "requests (>=2.32.5,<3.0.0)",
+    "urllib3 (>=2.5.0,<3.0.0)",
+    "beautifulsoup4 (>=4.14.2,<5.0.0)",
+    "pydantic-settings (>=2.11.0,<3.0.0)",
+]
+
+[tool.poetry]
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.14.3"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.format]
+quote-style = "single"
+docstring-code-format = true
