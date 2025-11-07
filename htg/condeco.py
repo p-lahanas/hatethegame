@@ -1,3 +1,4 @@
+import json
 import logging
 from datetime import datetime, timezone
 
@@ -126,7 +127,7 @@ class CondecoBooker:
         self.session.headers['Authorization'] = f'Bearer {elite_session_cookie}'
         self.logger.info('FOUND EliteSession token')
 
-    def get_bookings(self, date: datetime):
+    def get_bookings(self, date: datetime) -> dict:
         payload = {
             'CountryId': '3',
             'LocationId': '12',
@@ -148,15 +149,28 @@ class CondecoBooker:
             timeout=CondecoBooker.TIMEOUT,
         )
         print(response.status_code)
-        print(response.text)
+        # print(response.text)
+        bookings = json.loads(response.text)
+        # print(bookings)
+        return bookings
 
-    def book_desk(self, dates: list[str], resourceitem_id: str = '2383'):  # desk 69...
+    def get_user_bookings(self, date: datetime) -> list[dict]:
+        user_bookings = []
+        bookings = self.get_bookings(date)
+        for booking in bookings['Meetings']:
+            # print(booking['AdditionalInfo'])
+            if booking['AdditionalInfo']['FullName'] == self.user_full_name:
+                user_bookings.append(booking)
+        return user_bookings
+
+    def book_desk(self, date: datetime, resourceitem_id: str = '2383'):  # desk 69...
+        date_string = date.strftime('%d/%m/%Y')
         payload = {
             'UserID': self.user_id,
             'countryID': '3',
             'locationID': '12',
             'groupID': '61',
-            'datesRequested': [f'{date}_0;{date}_1;' for date in dates],
+            'datesRequested': f'{date_string}_0;{date_string}_1;',
             'generalForm': 'fkUserID~¬firstName~¬lastName~¬company~¬emailAddress~¬telephone~¬isExternal~0¬notifyByPhone~0¬notifyByEmail~0¬notifyBySMS~',
             'bookingID': '0',
             'resourceItemID': resourceitem_id,
@@ -182,5 +196,6 @@ class CondecoBooker:
         print(response.headers)
 
         # Check our booking was actually successful
+
         # print(response.headers)
         return response

@@ -1,14 +1,18 @@
+import datetime
+
 from htg import CondecoBooker
 
 
 def main():
-    # start = datetime.strptime('17-11-2025', '%d-%m-%Y')
-    # end = datetime.strptime('21-11-2025', '%d-%m-%Y')
     booker = CondecoBooker()
 
-    # .book_desk(
-    #     ['17/11/2025', '18/11/2025', '19/11/2025', '20/11/2025', '21/11/2025']
-    # )
+    # Let's book the week a fortnight from now
+    now = datetime.datetime.now()
+    delta_days = 14 - now.weekday()
+    monday_fortnight = now + datetime.timedelta(days=delta_days)
+
+    for i in range(5):
+        booker.book_desk(monday_fortnight + datetime.timedelta(days=i))
 
 
 if __name__ == '__main__':

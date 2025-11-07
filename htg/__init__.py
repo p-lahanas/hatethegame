@@ -1,8 +1,7 @@
 import logging
 from logging.handlers import RotatingFileHandler
 
-from .book import CondecoBooker
-
+from .condeco import CondecoBooker
 
 logging.basicConfig(
     level=logging.INFO,
