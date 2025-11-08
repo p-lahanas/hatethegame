@@ -13,6 +13,7 @@ dependencies = [
 ]
 
 [tool.poetry]
+package-mode = false
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.14.3"
