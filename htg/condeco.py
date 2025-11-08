@@ -148,17 +148,15 @@ class CondecoBooker:
             data=payload,
             timeout=CondecoBooker.TIMEOUT,
         )
-        print(response.status_code)
-        # print(response.text)
+
         bookings = json.loads(response.text)
-        # print(bookings)
+
         return bookings
 
     def get_user_bookings(self, date: datetime) -> list[dict]:
         user_bookings = []
         bookings = self.get_bookings(date)
         for booking in bookings['Meetings']:
-            # print(booking['AdditionalInfo'])
             if booking['AdditionalInfo']['FullName'] == self.user_full_name:
                 user_bookings.append(booking)
         return user_bookings
@@ -191,11 +189,6 @@ class CondecoBooker:
             timeout=CondecoBooker.TIMEOUT,
         )
 
-        # Return the response.
-        print(response.status_code)
-        print(response.headers)
+        # TODO: Check our booking was actually successful
 
-        # Check our booking was actually successful
-
-        # print(response.headers)
         return response
